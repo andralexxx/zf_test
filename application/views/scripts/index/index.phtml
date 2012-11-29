@@ -1,0 +1,56 @@
+<p><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'add')) ?>">Add new</a></p>
+
+<div id="errors" class="errors">
+    <?php
+   if ($this->errors) {
+        foreach ($this->errors as $error) {
+            echo $error . '<br />';
+        }
+    }
+    ?>
+</div>
+
+<form id="user-name-ajax-edit" method="post" action="" onsubmit="submitform(getElementById('edit-id').value, getElementById('edit-firstname').value, getElementById('edit-lastname').value); return false;">
+    <input type="text" id="edit-firstname" name="firstname" value="<?php echo @$firstname; ?>" />
+
+	<input type="text" id="edit-lastname" name="lastname" value="<?php echo @$lastname; ?>" />
+
+	<input type="hidden" id="edit-id" name="id" value="<?php echo @$id; ?>" />
+
+	<input type="submit" value="submit" />
+</form>
+
+<table id="guestbook">
+
+	<caption>Guestbook Entries</caption>
+	<tr>
+		<th>First name</th>
+		<th>Last name</th>
+		<th>Email</th>
+		<th>Phone</th>
+		<th>Birthday</th>
+		<th>Photo</th>
+		<th>Action</th>
+	</tr>
+
+    <?php foreach ($this->entries as $entry): ?>
+	<tr id="id-<?php echo $this->escape($entry->id) ?>">
+		<td class="firstname"><span><?php echo $this->escape($entry->firstname) ?></span></td>
+		<td class="lastname"><span><?php echo $this->escape($entry->lastname) ?></span></td>
+		<td><?php echo $this->escape($entry->email) ?></td>
+		<td><?php echo $this->escape($entry->phone) ?></td>
+		<td><?php echo $this->escape($entry->birthday) ?></td>
+		<td>
+			<?php if('uploads/files/' != $this->escape($entry->photo)): ?>
+				<img src="<?php echo $this->escape($entry->photo) ?>" />
+			<?php endif; ?>
+		</td>
+		<td>
+			<a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'edit', 'id' => $entry->id)) ?>">edit</a>
+			/
+			<a href="<?php echo $this->url(array('controller' => 'index','action' => 'delete', 'id' => $entry->id)) ?>">delete</a>
+		</td>
+	</tr>
+    <?php endforeach; ?>
+
+</table>
